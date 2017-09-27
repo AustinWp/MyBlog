@@ -40,7 +40,7 @@ tags:
 
 如果我们查看SDWebImageManager.m的源码，会发现其中近一半多的篇幅都被单独一个方法占据了，他就是之前我们提过的：
 
-```objective-c
+```objc
 - (id <SDWebImageOperation>)loadImageWithURL:(nullable NSURL *)url options:(SDWebImageOptions)options progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(nullable SDInternalCompletionBlock)completedBlock;
 ```
 
@@ -52,13 +52,13 @@ tags:
 
 3. 结合上面的信息，选择是否提前回调。
 
-   ```objective-c
+   ```objc
    [self callCompletionBlockForOperation:operation completion:completedBlock error:[NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorFileDoesNotExist userInfo:nil] url:url];
    ```
 
 4. 根据URL获取CacheKey，通过CacheKey去本地寻找图片，现在内存中找，如果内存中没有就去沙盒中找，这里使用了GCD异步函数，专门在一个IO线程里做沙盒存取的操作。
 
-   ```objective-c
+   ```objc
    - (nullable NSOperation *)queryCacheOperationForKey:(nullable NSString *)key done:(nullable SDCacheQueryCompletedBlock)doneBlock {
        // First check the in-memory cache...
        UIImage *image = [self imageFromMemoryCacheForKey:key];
@@ -98,9 +98,9 @@ tags:
 
 5. 如果缓存中有，则回调，没有的话则去网络下载
 
-   - 这里有个值得一说的点就是作者通过位移运算符做SDWebImageDownloaderOptions的枚举值，通过对枚举值进行或运算可以通过一个值描述多个枚举。
+    这里有个值得一说的点就是作者通过位移运算符做SDWebImageDownloaderOptions的枚举值，通过对枚举值进行或运算可以通过一个值描述多个枚举。
 
-     ```objective-c
+     ```objc
      SDWebImageDownloaderLowPriority = 1 << 0 //00000001
      SDWebImageDownloaderProgressiveDownload = 1 << 1 //00000010
      SDWebImageDownloaderUseNSURLCache = 1 << 2 //00000100
@@ -108,11 +108,11 @@ tags:
      options = 00000111
      ```
 
-   - 设置好配置信息后去网络下载
+    设置好配置信息后去网络下载
 
 6. 如果下载成功后就把图片cache起来，然后回调
 
-   ```objective-c
+   ```objc
     if (downloadedImage && finished) {
    	[self.imageCache storeImage:downloadedImage imageData:downloadedData forKey:key toDisk:cacheOnDisk completion:nil];}
    [self callCompletionBlockForOperation:strongOperation completion:completedBlock image:downloadedImage data:downloadedData error:nil cacheType:SDImageCacheTypeNone finished:finished url:url];
@@ -126,7 +126,7 @@ tags:
 
 - 存储Store
 
-  ```objective-c
+  ```objc
   - (void)storeImage:(nullable UIImage *)image
            imageData:(nullable NSData *)imageData
               forKey:(nullable NSString *)key
@@ -138,7 +138,7 @@ tags:
 
 - 取Query
 
-  ```objective-c
+  ```objc
   - (nullable NSOperation *)queryCacheOperationForKey:(nullable NSString *)key done:(nullable SDCacheQueryCompletedBlock)doneBlock;
   ```
 
@@ -146,7 +146,7 @@ tags:
 
 - 删除Remove
 
-  ```objective-c
+  ```objc
   - (void)removeImageForKey:(nullable NSString *)key fromDisk:(BOOL)fromDisk withCompletion:(nullable SDWebImageNoParamsBlock)completion
   ```
 
@@ -156,19 +156,19 @@ tags:
 
 在SDWebImage中另一个非常重要的部分就是下载器SDWebImageDownloader了，总体其使用了NSURLSession和NSOperation进行设计和实现。下面这个方法就是整个下载器最主要的了。
 
-```objective-c
+```objc
 - (nullable SDWebImageDownloadToken *)downloadImageWithURL:(nullable NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(nullable SDWebImageDownloaderCompletedBlock)completedBlock;
 ```
 
 这个方法首先会转入一个新的方法addProgressCallback，并且直接返回其的返回值。在addProgressCallback中会根据URL去URLOperations里面寻找是否有对应的Operation,没有的话，则把createCallback赋值给Operation。
 
-```objective-c
+```objc
 operation = createCallback();
 ```
 
 并且加入到数组URLOperations中保存。在URLOperations的完成回调函数里写，在Operation执行完毕后，从URLOperations中删除。
 
-```objective-c
+```objc
 id downloadOperationCancelToken = [operation addHandlersForProgress:progressBlock completed:completedBlock];
 token = [SDWebImageDownloadToken new];
 token.url = url;
@@ -181,7 +181,7 @@ token.downloadOperationCancelToken = downloadOperationCancelToken;
 
 在createCallback()中，我们根据options设置了request的缓存策略
 
-```objective-c
+```objc
 NSURLRequestCachePolicy cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         if (options & SDWebImageDownloaderUseNSURLCache) {
             if (options & SDWebImageDownloaderIgnoreCachedResponse) {
@@ -194,7 +194,7 @@ NSURLRequestCachePolicy cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
 
 生成了request，设置requestheader，cookies
 
-```objective-c
+```objc
 NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:cachePolicy timeoutInterval:timeoutInterval];
         request.HTTPShouldHandleCookies = (options & SDWebImageDownloaderHandleCookies);
         request.HTTPShouldUsePipelining = YES;
@@ -208,13 +208,13 @@ NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cach
 
 根据request和session生成SDWebImageDownloaderOperation。对Operation的一些属性进行设置，例如credentials（认证），queuePriority（队列中优先级）等等。
 
-```objective-c
+```objc
 SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWithRequest:request inSession:sself.session options:options];
 ```
 
 最后加入到downloadQueue队列中，并且添加上一个加入的lastAddedOperation对当前Operation的依赖。保证先进后出的顺序。（可以想象一下，你快速刷新Tableview的时候，同时有很多图片下载，但是如果是FIFO的话，你已经在底部了，图片还是从上往下，按照请求的顺序返回是不是不合理，合理的应该是你当前眼睛看到的那部分图片，也就是最后发出的那些请求先返回，这样就很好理解了。）
 
-```objective-c
+```objc
 [sself.downloadQueue addOperation:operation];
         if (sself.executionOrder == SDWebImageDownloaderLIFOExecutionOrder) {
             [sself.lastAddedOperation addDependency:operation];
@@ -226,7 +226,7 @@ SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWit
 
 此外，还有另外一个方法，就是取消任务的功能。
 
-```objective-c
+```objc
 - (void)cancel:(nullable SDWebImageDownloadToken *)token
 ```
 
@@ -236,13 +236,13 @@ SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWit
 
 首先，SDWebImageDownloaderOperation是继承于NSOperation的，把其加入一个队列中，就会自动执行，这是NSOperation的特点。这里的SDWebImageDownloaderOperation是一个自定义NSOperation，自定义NSOperation需要自己实现start方法，自己维护isFinished和isExecuting等属性。
 
-```objective-c
+```objc
 - (void)start
 ```
 
 在start方法里，大致做了生成unownedSession，dataTask，执行dataTask等工作。
 
-```objective-c
+```objc
 [self.dataTask resume]
 ```
 
@@ -250,7 +250,7 @@ SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWit
 
 同时也要实现done函数，表示任务执行完毕。
 
-```objective-c
+```objc
 - (void)done {
     self.finished = YES;
     self.executing = NO;
@@ -260,7 +260,7 @@ SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWit
 
 一个小tips：
 
-```objective-c
+```objc
 @synthesize finished = _finished;
 - (void)setFinished:(BOOL)finished {
     [self willChangeValueForKey:@"isFinished"];
@@ -275,7 +275,7 @@ SDWebImageDownloaderOperation *operation = [[sself.operationClass alloc] initWit
 
 - 使用@synchronized保证线程安全，下面的例子中就是相当于对runningOperations加了锁，保证的其在不同线程访问是不会产生错误。
 
-```objective-c
+```objc
 @synchronized (self.runningOperations) {
         [self.runningOperations addObject:operation];
     }

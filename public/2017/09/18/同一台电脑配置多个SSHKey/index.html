@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html lang="">
+<head prefix="og: http://ogp.me/ns#">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <title>同一台电脑配置多个SSHKey | 武小鹏的博客</title>
+
+    <!-- Open Graph -->
+    <meta name="description" content="&amp;#x540C;&amp;#x4E00;&amp;#x53F0;&amp;#x7535;&amp;#x8111;&amp;#x914D;&amp;#x7F6E;&amp;#x591A;&amp;#x4E2A;SSHKey&amp;#x516C;&amp;#x53F8;&amp;#x6709;&amp;#x81EA;&amp;#x5DF1;&amp;#x7684;GitLab&amp;#xFF0C;&amp;#x4F46;&amp;#x662F;&amp;#x6211;&amp;#x5E73;&amp;#x65F6;&amp;#x4E5F;&amp;#x559C;&amp;#x6">
+<meta name="keywords" content="iOS,苹果,移动端,OC,Swift,Objective-C,Mobile,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="同一台电脑配置多个SSHKey">
+<meta property="og:url" content="http://yoursite.com/2017/09/18/同一台电脑配置多个SSHKey/index.html">
+<meta property="og:site_name" content="武小鹏的博客">
+<meta property="og:description" content="&amp;#x540C;&amp;#x4E00;&amp;#x53F0;&amp;#x7535;&amp;#x8111;&amp;#x914D;&amp;#x7F6E;&amp;#x591A;&amp;#x4E2A;SSHKey&amp;#x516C;&amp;#x53F8;&amp;#x6709;&amp;#x81EA;&amp;#x5DF1;&amp;#x7684;GitLab&amp;#xFF0C;&amp;#x4F46;&amp;#x662F;&amp;#x6211;&amp;#x5E73;&amp;#x65F6;&amp;#x4E5F;&amp;#x559C;&amp;#x6">
+<meta property="og:updated_time" content="2017-09-18T08:37:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="同一台电脑配置多个SSHKey">
+<meta name="twitter:description" content="&amp;#x540C;&amp;#x4E00;&amp;#x53F0;&amp;#x7535;&amp;#x8111;&amp;#x914D;&amp;#x7F6E;&amp;#x591A;&amp;#x4E2A;SSHKey&amp;#x516C;&amp;#x53F8;&amp;#x6709;&amp;#x81EA;&amp;#x5DF1;&amp;#x7684;GitLab&amp;#xFF0C;&amp;#x4F46;&amp;#x662F;&amp;#x6211;&amp;#x5E73;&amp;#x65F6;&amp;#x4E5F;&amp;#x559C;&amp;#x6">
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Person",
+  "email": "mailto:allenwooop@gmail.com",
+  "image": "",
+  "name": "Wooop",
+  "url": "http://yoursite.com"
+}
+</script>
+    <script>
+    var algoliaEnabled = false;
+    
+</script>
+
+    
+
+    
+    
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+    
+    
+    
+        <!-- stylesheets list from config.yml -->
+        
+        <link rel="stylesheet" href="/css/aloha.css">
+        
+        <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.css">
+        
+        <link rel="stylesheet" href="//cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css">
+        
+    
+
+</head>
+<body id="body" style="margin-bottom: 0;" class="pushable">
+
+    <div class="ui top fixed menu">
+        <a class="item" id="menu-icon"><i class="sidebar icon"></i></a>
+    </div>
+
+    <div id="menu-sidebar" class="ui left vertical sidebar menu">
+
+    <div id="sidebar-top">
+        <div class="content">
+            <h3>武小鹏的博客</h3>
+        </div>
+    </div>
+    <div class="ui container sidebar-card">
+    <div class="ui people shape content">
+        <div class="active side">
+            <div class="ui card">
+                <div class="image">
+                    <img class="ui medium bordered image" src="/images/avatar.jpg">
+                </div>
+                <div class="content">
+                    <a class="header">Wooop</a>
+                    
+                        <div class="meta">
+                            Programer
+                        </div>
+                    
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+                        <div class="item">
+                            <i class="marker icon" style="float: left"></i>
+                            <div class="content">Hangzhou</div>
+                        </div>
+                        
+                        
+                        <div class="item">
+                            <i class="mail icon" style="float: left"></i>
+                            <div class="content">
+                                <a href="mailto:allenwooop@gmail.com">allenwooop@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="extra content">
+                    <div class="ui list">
+                        
+
+                                <a href="https://github.com/Woooop"><i class="large github icon" style="float: left"></i></a>
+
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+    
+    
+
+    
+
+    
+    <a href="/index.html" class="item" >
+        <i class="home icon"></i>
+        HOME
+    </a>
+
+    
+
+    
+</div>
+
+    <div class="pusher body-content">
+        <div id="content" class="ui main container">
+            <!--<div class="ui one column grid">-->
+                <!--<div class="column">-->
+                    <!--<div class="ui main container">-->
+                        <div id="post-同一台电脑配置多个SSHKey" class="ui main container article-type-post">
+
+    
+
+    <div class="ui divided grid">
+
+        <div class="two column row" id="article-content">
+
+            <div class="thirteen wide computer thirteen wide tablet sixteen wide mobile column">
+                
+
+<h1 class="ui header">
+    
+    同一台电脑配置多个SSHKey
+</h1>
+
+
+
+                <div class="article-inner">
+
+                    <div class="article-entry" itemprop="articleBody">
+                        
+                        <h5 id="&#x540C;&#x4E00;&#x53F0;&#x7535;&#x8111;&#x914D;&#x7F6E;&#x591A;&#x4E2A;SSHKey"><a href="#&#x540C;&#x4E00;&#x53F0;&#x7535;&#x8111;&#x914D;&#x7F6E;&#x591A;&#x4E2A;SSHKey" class="headerlink" title="&#x540C;&#x4E00;&#x53F0;&#x7535;&#x8111;&#x914D;&#x7F6E;&#x591A;&#x4E2A;SSHKey"></a>&#x540C;&#x4E00;&#x53F0;&#x7535;&#x8111;&#x914D;&#x7F6E;&#x591A;&#x4E2A;SSHKey</h5><p>&#x516C;&#x53F8;&#x6709;&#x81EA;&#x5DF1;&#x7684;GitLab&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x5E73;&#x65F6;&#x4E5F;&#x559C;&#x6B22;&#x7ED9;GitHub&#x4E0A;&#x653E;&#x70B9;&#x4E1C;&#x897F;&#xFF0C;&#x5305;&#x62EC;&#x8FD9;&#x4E2A;&#x535A;&#x5BA2;&#x5C31;&#x662F;&#x5728;GitHub&#x6258;&#x7BA1;&#x7684;&#x3002;&#x56E0;&#x4E3A;&#x5728;&#x90E8;&#x7F72;&#x535A;&#x5BA2;&#x7684;&#x65F6;&#x5019;&#x53EA;&#x80FD;&#x4F7F;&#x7528;SSH&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x9700;&#x8981;&#x5728;&#x516C;&#x53F8;&#x7535;&#x8111;&#x4E0A;&#x914D;&#x7F6E;&#x4E24;&#x4E2A;SSHKey&#xFF0C;&#x90A3;&#x4E48;&#x5230;&#x5E95;&#x6211;&#x4EEC;&#x5728;&#x4F7F;&#x7528;SHH&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x7528;&#x7684;&#x662F;&#x54EA;&#x4E2A;Key&#x5462;&#x3002;&#x5728;&#x7ECF;&#x8FC7;&#x5B66;&#x4E60;&#x540E;&#x53D1;&#x73B0;SSH&#x6709;&#x4E00;&#x4E2A;config&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x3002;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># GitHub&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</div><div class="line">Host github.com</div><div class="line">HostName ssh.github.com</div><div class="line">Port 443</div><div class="line">PreferredAuthentications publickey</div><div class="line">IdentityFile ~/.ssh/github_rsa  //&#x5BF9;&#x5E94;&#x4E3A;GitHub&#x751F;&#x6210;&#x7684;KEY</div><div class="line"></div><div class="line"></div><div class="line"># &#x81EA;&#x5DF1;&#x516C;&#x53F8;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</div><div class="line">Host &#x516C;&#x53F8;Git&#x7684;host</div><div class="line">HostName &#x516C;&#x53F8;Git&#x7684;hostname</div><div class="line">PreferredAuthentications publickey</div><div class="line">IdentityFile ~/.ssh/id_rsa //&#x5BF9;&#x5E94;&#x4E3A;&#x516C;&#x53F8;Git&#x751F;&#x6210;&#x7684;KEY</div></pre></td></tr></table></figure>
+<p>&#x7528;&#x4E0A;&#x9762;&#x5185;&#x5BB9;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x540D;&#x4E3A;config&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x653E;&#x5165;~/.ssh&#x76EE;&#x5F55;&#x91CC;&#x9762;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x6211;&#x7684;~/.ssh&#x76EE;&#x5F55;&#x91CC;&#x9762;&#x7684;&#x4E1C;&#x897F;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">config		github_rsa.pub	id_rsa.pub</div><div class="line">github_rsa	id_rsa		known_hosts</div></pre></td></tr></table></figure>
+<h5 id="&#x5199;&#x4E00;&#x4E2A;&#x5207;&#x6362;Git&#x7528;&#x6237;&#x540D;&#x90AE;&#x7BB1;&#x4FE1;&#x606F;&#x7684;&#x5C0F;&#x811A;&#x672C;"><a href="#&#x5199;&#x4E00;&#x4E2A;&#x5207;&#x6362;Git&#x7528;&#x6237;&#x540D;&#x90AE;&#x7BB1;&#x4FE1;&#x606F;&#x7684;&#x5C0F;&#x811A;&#x672C;" class="headerlink" title="&#x5199;&#x4E00;&#x4E2A;&#x5207;&#x6362;Git&#x7528;&#x6237;&#x540D;&#x90AE;&#x7BB1;&#x4FE1;&#x606F;&#x7684;&#x5C0F;&#x811A;&#x672C;"></a>&#x5199;&#x4E00;&#x4E2A;&#x5207;&#x6362;Git&#x7528;&#x6237;&#x540D;&#x90AE;&#x7BB1;&#x4FE1;&#x606F;&#x7684;&#x5C0F;&#x811A;&#x672C;</h5><p>&#x6709;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x9700;&#x6C42;&#xFF0C;&#x5C31;&#x662F;&#x6211;&#x7ECF;&#x5E38;&#x4F1A;&#x5728;&#x516C;&#x53F8;Git&#x548C;GitHub&#x5207;&#x6362;&#x63D0;&#x4EA4;&#x4E1C;&#x897F;&#xFF0C;&#x6211;&#x5E0C;&#x671B;&#x6211;&#x80FD;&#x5FEB;&#x901F;&#x5207;&#x6362;Git&#x8D26;&#x53F7;&#x4FE1;&#x606F;&#x548C;&#x90AE;&#x7BB1;&#x4FE1;&#x606F;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x5199;&#x4E86;&#x4E00;&#x4E2A;shell&#x5C0F;&#x811A;&#x672C;&#x3002;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>!/bin/bash</div><div class="line">if [[ $1 == &quot;g&quot; ]]; then</div><div class="line"><span class="meta">	#</span>statements</div><div class="line">	git config --global user.email allenwooop@gmail.com</div><div class="line">    git config --global user.name Woooop</div><div class="line">	echo &quot;&#x8BBE;&#x7F6E;Git&#x90AE;&#x7BB1;&#x4E3A;allenwooop@gmail.com&quot;</div><div class="line">fi</div><div class="line">if [[ $1 == &quot;p&quot; ]]; then</div><div class="line"><span class="meta">	#</span>statements</div><div class="line">	git config --global user.email &#x79C1;&#x6709;&#x90AE;&#x7BB1;</div><div class="line">    git config --global user.name &#x79C1;&#x6709;name</div><div class="line">	echo &quot;&#x8BBE;&#x7F6E;Git&#x90AE;&#x7BB1;&#x4E3A;xxxx@mail.com&quot;</div><div class="line">fi</div></pre></td></tr></table></figure>
+<p>&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF1A;&#x81EA;&#x5DF1;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;.sh&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x628A;&#x4EE3;&#x7801;&#x7C98;&#x8D34;&#x8FDB;&#x53BB;&#xFF0C;&#x586B;&#x5199;&#x81EA;&#x5DF1;&#x5BF9;&#x5E94;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x5207;&#x6362;&#x4E3A;GitHub&#x90AE;&#x7BB1;&#x73AF;&#x5883;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./&#x6587;&#x4EF6;&#x540D;.sh g //g&#x662F;&#x53C2;&#x6570;&#xFF0C;&#x4EE3;&#x8868;GitHub</div></pre></td></tr></table></figure>
+<p>&#x5207;&#x6362;&#x4E3A;&#x79C1;&#x6709;&#x90AE;&#x7BB1;&#x73AF;&#x5883;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./&#x6587;&#x4EF6;&#x540D;.sh p //p&#x662F;&#x53C2;&#x6570;&#xFF0C;&#x4EE3;&#x8868;&#x79C1;&#x6709;&#x73AF;&#x5883;Private</div></pre></td></tr></table></figure>
+
+                        
+                    </div>
+
+                    
+                    
+                    
+
+                    <div class="description post-description">
+    <span class="post-description-item">
+        <time datetime="2017-09-18T08:36:45.000Z" itemprop="datePublished">2017-09-18</time>
+
+    </span>
+    <span class="post-description-item">
+        
+    </span>
+</div>
+
+                </div>
+                
+                <div id="pagination" class="nav-web ui text container pagination">
+
+    <div class="ui stackable two column divided grid container">
+        <div class="row">
+            <div class="column nav-left">
+                
+
+                <a class="ui tiny button disabled"><i class="angle left icon"></i>Previous</a>
+
+                
+            </div>
+            <div class="column nav-right">
+                
+
+                <a href="/2017/09/18/重读SDWebImage/" class="ui tiny button">
+                    
+                    重读SDWebImage
+                    
+                    <i class="angle right icon"></i></a>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+                
+            </div>
+
+            
+            <div class="three wide computer three wide tablet column">
+
+                <div class="ui sticky article-toc" id="article-toc">
+                    <!-- toc -->
+                    <ol class="ui ordered list"><li><a href="#同一台电脑配置多个SSHKey"><span>同一台电脑配置多个SSHKey</span></a></li><li><a href="#写一个切换Git用户名邮箱信息的小脚本"><span>写一个切换Git用户名邮箱信息的小脚本</span></a></li></ol>
+                </div>
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+        <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui inverted section divider"></div>
+        &copy; 2017 <a href="/">Wooop</a>,
+        Powered by <a href="https://github.com/henryhuang/hexo-theme-aloha" target="_blank">Aloha</a> and <a
+                href="http://hexo.io/" target="_blank">Hexo</a>.
+    </div>
+</div>
+
+    </div>
+
+
+
+
+<!-- scripts list from theme config.yml -->
+
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="//cdn.bootcss.com/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch/3.18.1/algoliasearch.min.js"></script>
+
+<script src="//cdn.bootcss.com/algoliasearch-helper-js/2.13.0/algoliasearch.helper.min.js"></script>
+
+<script src="/js/semantic-ui-algolia.js"></script>
+
+<script src="/js/aloha-events.js"></script>
+
+
+
+</body>
+</html>
