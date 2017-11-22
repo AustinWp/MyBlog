@@ -55,7 +55,7 @@ npm config set disturl https://npm.taobao.org/dist --global
 
 ​	Xcode和Android Studio都是为了编译不同平台的工具。
 
-​	Weex-toolkit是官方的一个工具，可以用来创建，调试，打包Weex项目。
+​	Weex-toolkit是官方的一个工具，可以用来创建，调试，打包Weex项目。这里有个巨坑，如果遇到权限问题千万不要使用sudo安装，sudo安装会导致后面不能调试等一系列问题。如果在不使用sudo的时候还遇到权限问题，参考GitHub的weex-toolkit的QA部分。
 
 ~~~
 npm install -g weex-toolkit
